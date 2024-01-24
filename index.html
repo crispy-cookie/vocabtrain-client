@@ -65,8 +65,8 @@
   <div class="glider-contain">
     <div class="glider">
       <!--<div class="card">Anmerkungen</div>-->
-      <div class="card"><p>Deutsche Kartoffel</p></div>
-      <div class="card"><p>English potato</p></div>
+      <div class="card"><p id="gerVocab">Deutsche Kartoffel</p></div>
+      <div class="card"><p id="engVocab">English potato</p></div>
     </div>
   
     <button aria-label="Previous" class="glider-prev">«</button>
@@ -159,34 +159,23 @@
         } 
     });
     
-    /*const details = document.getElementById('anmerkungen');
-    if (!localStorage.getItem('anmerkungen')) {
-      localStorage.setItem('anmerkungen', true);
-    }
-    details.addEventListener('load', async () => {
-      const state = localStorage.getItem('anmerkungen');
-      
-      if (state.open === 'false' || state === null) {
-        localStorage.setItem('anmerkungen', true);
-      } else {
-        details.setAttribute('open', state);
-      }
-    });
+    const successBtn = document.getElementById('');
+    const failBtn = document.getElementById('');
+    const gerVocab = document.getElementById('gerVocab');
+    const engVocab = document.getElementById('engVocab');
+    const fruits = ["apple", "banana", "cherry", "honey", "blackberry", "grape", "kiwi", "lemon", "mango", "orange"];
+    const fruchte = ["Apfel", "Banane", "Kirsche", "Honig", "Brombeere", "Trauben", "kiwi", "Zitrone", "Mango", "Orange"];
     
-    details.addEventListener('click', () => {
-      let state = localStorage.getItem('anmerkungen');
-      console.log('old', state);
-      if (state === null) {
-        localStorage.setItem('anmerkungen', false);
-        console.log('null', state);
-        return;
-      }
-      state = !state;
-      /*state = state ? 'true' : 'false';* /
-      console.log('switch', state);
-      localStorage.setItem('anmerkungen', state);
-      console.log('set', state);
-    });*/
+    successBtn.addEventListener(click, getNewVocab;
+    failBtn.addEventListener(click, getNewVocab);
+
+    
+    async function getNewVocab() {
+      const randomFruitIndex = Math.floor(Math.random() * fruits.length);
+      
+      gerVocab.textContent = fruits[randomFruitIndex];
+      engVocab.textContent = fruchte[randomFruitIndex];
+    }
   </script>
   <style>
     body {
@@ -298,8 +287,8 @@
 </main>
 <footer class="btn-wrapper" id="">
   <!--<section class="footer-btn-container">-->
-  <button type="button" id="btn" class="btn forgot disable" disabled="true">✖️ <br />Vergessen</button>
-  <button type="button" id="btn" class="btn remember">✔️ <br />Auswendig</button>
+  <button type="button" id="successBtn" class="btn forgot disable" disabled="true">✖️ <br />Vergessen</button>
+  <button type="button" id="failBtn" class="btn remember">✔️ <br />Auswendig</button>
   <!--</section>-->
 </footer>
     <!--</main>-->
