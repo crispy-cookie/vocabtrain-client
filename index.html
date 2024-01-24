@@ -96,87 +96,7 @@
       </p>
     </div>
   </details>
-  <script defer>
-    window.addEventListener('load', async () => {
-      new Glider(document.querySelector('.glider'), {
-        slidesToShow: 1,
-        slidesToScroll: 2,
-        scrollLock: true,
-        draggable: true,
-        dots: '.dots',
-        arrows: {
-          prev: '.glider-prev',
-          next: '.glider-next'
-        }
-      });
-    });
-
-    //localStorage.clear();
-    const summary = document.getElementById('anmerkungen');
-
-    /*summary.addEventListener('load', async () => {
-      if (localStorage.getItem('anmerkungen') === null) {
-        localStorage.setItem('anmerkungen', true);
-        console.log('56 ls wasnt set. now set to true');
-      } else {
-        // Key exists in localStorage
-        let state = JSON.parse(localStorage.getItem('anmerkungen'));
-        if (state === false || state === 'false') {
-          summary.removeAttribute('open');
-          console.log(`63, ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
-        }
-        console.log(`60 ls was set to ${state}. with type ${typeof state} doing nothing`);
-      }
-    });*/
-    async function name(params) {
-        if (localStorage.getItem('anmerkungen') === null) {
-          localStorage.setItem('anmerkungen', true);
-          console.log('56 ls wasnt set. now set to true');
-        } else {
-          // Key exists in localStorage
-          let state = JSON.parse(localStorage.getItem('anmerkungen'));
-          if (state === false || state === 'false') {
-            summary.removeAttribute('open');
-            console.log(`77, ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
-          }
-        }
-    }
-    setTimeout(12000, name());
-
-    summary.addEventListener('click', async () => {  
-      if (localStorage.getItem('anmerkungen') === null) {
-          localStorage.setItem('anmerkungen', false);
-        } else {
-          // Key exists in localStorage
-        
-
-          let state = JSON.parse(localStorage.getItem('anmerkungen'));
-          console.log(`72 ls was set to ${state} with type ${typeof state}. now toggling`);
-          state = !state;
-          console.log(`74 ls was toggled to ${state}.`);
-          localStorage.setItem('anmerkungen', state);
-          console.log(`76 and saved as ${state}.`);
-        } 
-    });
-    
-    const successBtn = document.getElementById('successBtn');
-    const failBtn = document.getElementById('failBtn');
-    const gerVocab = document.getElementById('gerVocab');
-    const engVocab = document.getElementById('engVocab');
-    const fruits = ["apple", "banana", "cherry", "honey", "blackberry", "grape", "kiwi", "lemon", "mango", "orange"];
-    const fruchte = ["Apfel", "Banane", "Kirsche", "Honig", "Brombeere", "Trauben", "kiwi", "Zitrone", "Mango", "Orange"];
-    
-    successBtn.addEventListener(click, getNewVocab);
-    failBtn.addEventListener(click, getNewVocab);
-
-    
-    async function getNewVocab() {
-      const randomFruitIndex = Math.floor(Math.random() * fruits.length);
-      
-      gerVocab.textContent = fruits[randomFruitIndex];
-      engVocab.textContent = fruchte[randomFruitIndex];
-    }
-  </script>
+  
   <style>
     body {
       min-height: 100vh; /* Footer nach unten drücken */
@@ -287,7 +207,7 @@
 </main>
 <footer class="btn-wrapper" id="">
   <!--<section class="footer-btn-container">-->
-  <button type="button" id="successBtn" class="btn forgot disable" disabled="true">✖️ <br />Vergessen</button>
+  <button type="button" id="successBtn" class="btn forgot">✖️ <br />Vergessen</button>
   <button type="button" id="failBtn" class="btn remember">✔️ <br />Auswendig</button>
   <!--</section>-->
 </footer>
@@ -308,6 +228,87 @@
         console.log('Funktion wurde aufgerufen');
       };
       */
+    </script>
+    <script defer>
+      window.addEventListener('load', async () => {
+        new Glider(document.querySelector('.glider'), {
+          slidesToShow: 1,
+          slidesToScroll: 2,
+          scrollLock: true,
+          draggable: true,
+          dots: '.dots',
+          arrows: {
+            prev: '.glider-prev',
+            next: '.glider-next'
+          }
+        });
+      });
+
+      //localStorage.clear();
+      const summary = document.getElementById('anmerkungen');
+
+      /*summary.addEventListener('load', async () => {
+        if (localStorage.getItem('anmerkungen') === null) {
+          localStorage.setItem('anmerkungen', true);
+          console.log('56 ls wasnt set. now set to true');
+        } else {
+          // Key exists in localStorage
+          let state = JSON.parse(localStorage.getItem('anmerkungen'));
+          if (state === false || state === 'false') {
+            summary.removeAttribute('open');
+            console.log(`63, ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
+          }
+          console.log(`60 ls was set to ${state}. with type ${typeof state} doing nothing`);
+        }
+      });*/
+      async function name(params) {
+          if (localStorage.getItem('anmerkungen') === null) {
+            localStorage.setItem('anmerkungen', true);
+            console.log('56 ls wasnt set. now set to true');
+          } else {
+            // Key exists in localStorage
+            let state = JSON.parse(localStorage.getItem('anmerkungen'));
+            if (state === false || state === 'false') {
+              summary.removeAttribute('open');
+              console.log(`77, ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
+            }
+          }
+      }
+      setTimeout(12000, name());
+
+      summary.addEventListener('click', async () => {  
+        if (localStorage.getItem('anmerkungen') === null) {
+            localStorage.setItem('anmerkungen', false);
+          } else {
+            // Key exists in localStorage
+
+
+            let state = JSON.parse(localStorage.getItem('anmerkungen'));
+            console.log(`72 ls was set to ${state} with type ${typeof state}. now toggling`);
+            state = !state;
+            console.log(`74 ls was toggled to ${state}.`);
+            localStorage.setItem('anmerkungen', state);
+            console.log(`76 and saved as ${state}.`);
+          } 
+      });
+      console.log('test');
+      const successBtn = document.getElementById('successBtn');
+      const failBtn = document.getElementById('failBtn');
+      const gerVocab = document.getElementById('gerVocab');
+      const engVocab = document.getElementById('engVocab');
+      const fruits = ["apple", "banana", "cherry", "honey", "blackberry", "grape", "kiwi", "lemon", "mango", "orange"];
+      const fruchte = ["Apfel", "Banane", "Kirsche", "Honig", "Brombeere", "Trauben", "kiwi", "Zitrone", "Mango", "Orange"];
+
+      successBtn.addEventListener('click', getNewVocab);
+      failBtn.addEventListener('click', getNewVocab);
+
+
+      async function getNewVocab() {
+        const randomFruitIndex = Math.floor(Math.random() * fruits.length);
+
+        gerVocab.textContent = fruchte[randomFruitIndex];
+        engVocab.textContent = fruits[randomFruitIndex];
+      }
     </script>
   </body>
 </html>
