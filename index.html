@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VocabTrainEr</title>
+    <link href="css/normalize.min.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="css/glider.min.css" rel="stylesheet" type="text/css" media="screen"/>
+    <!--<link href="css/framework7-bundle.min.css" rel="stylesheet" type="text/css" media="screen"/>-->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link rel="alternate icon" type="image/svg" href="img/metro.svg">
+    <link rel="manifest" href="app.webmanifest">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2196f3">
+    <meta name="robots" content="nofollow">
+    <meta name="description" content="Beschreibung der Seite">
+  </head>
+  <body>
+    <noscript>
+      <br />
+      <a href="https://ddg.gg/Javascript%20aktivieren?k1=-1&kz=1" target="_blank" rel="noreferrer noopener">Javascript ist deaktiviert</a>. Einige Funktionen sind nicht verfügbar!<br />
+      <a href="https://ddg.gg/Javascript%20aktivieren?k1=-1&kz=1" target="_blank" rel="noreferrer noopener">Javascript aktivieren</a>
+      <style>
+        nav, main, footer {
+          display: none !important;
+        }
+      </style>
+    </noscript>
+    <style>
+      body {
+        background-color: #151515;
+        color: #fff;
+      }
+      main {
+        margin: 0px;
+        padding: 0px;
+      }
+      img {
+        height: auto;
+        /*min-height: 30px;
+        max-height: 80px;*/
+        width: auto;
+      }
+      nav ul {
+        display: flex;
+        flex-direction: row;
+        /*position: absolute;
+        right: 0;
+        gap: auto;*/
+        /* justify-content: space-between;*/ /* 1 item links und 1 rechts */
+        justify-content: end; /* nur 1 link (rechts) vorhanden */
+        margin: 0;
+        padding: 0;
+
+      }
+    </style>
+    <nav>
+      <ul>
+        <!--<li><a href="#index" rel="noreferrer noopener" >Start</a></li>-->
+        <li><button type="button" id="settings">⚙️Einstellungen</button></li>
+      </ul>
+    </nav>
+    <!--<main>-->
+      <main>
+  <div class="glider-contain">
+    <div class="glider">
+      <!--<div class="card">Anmerkungen</div>-->
+      <div class="card"><p>Deutsche Kartoffel</p></div>
+      <div class="card"><p>English potato</p></div>
+    </div>
+  
+    <button aria-label="Previous" class="glider-prev">«</button>
+    <button aria-label="Next" class="glider-next">»</button>
+    <!--<button aria-label="Previous" class="glider-prev">&#11104</button>
+    <button aria-label="Next" class="glider-next">&#11106</button>-->
+    <div role="tablist" class="dots"></div>
+  </div>
+  <details class="anmerkungen" id="" open>
+    <summary id="anmerkungen">Anmerkungen</summary>
+    <div class="details-content">
+      <!--<img src="img/lichtenstein.jpg" />-->
+      <img src="img/Kartoffeln.jpg" />
+      <p class="detail-desc">
+        This could be a description of the vocabulary.
+        For example the meaning or the hy-phen-ation of a word.
+        Or just a picture. See the image above?
+        Or perhaps used in an everyday example of the word "patato":
+        <ul>
+          <li>"My chef explained to me a potato is a root vegetable that is widely used in cooking."</li>
+          <li>"I'm a couch-potato. After work I go straight for the tv."</li>
+          <li>"I bought some potatoes at the grocery store."</li>
+        </ul>
+
+        Here, have some Lorem Ipsum :)
+        Perspiciatis id non accusamus repellendus et. Modi at enim accusantium minima voluptas maiores. Eos qui dolores repudiandae quibusdam non reprehenderit est laudantium. Ducimus sint quis consequatur. Molestias explicabo repellendus odit. Repudiandae ut reiciendis rerum.
+      </p>
+    </div>
+  </details>
+  <script defer>
+    window.addEventListener('load', async () => {
+      new Glider(document.querySelector('.glider'), {
+        slidesToShow: 1,
+        slidesToScroll: 2,
+        scrollLock: true,
+        draggable: true,
+        dots: '.dots',
+        arrows: {
+          prev: '.glider-prev',
+          next: '.glider-next'
+        }
+      });
+    });
+
+    //localStorage.clear();
+    const summary = document.getElementById('anmerkungen');
+
+    /*summary.addEventListener('load', async () => {
+      if (localStorage.getItem('anmerkungen') === null) {
+        localStorage.setItem('anmerkungen', true);
+        console.log('56 ls wasnt set. now set to true');
+      } else {
+        // Key exists in localStorage
+        let state = JSON.parse(localStorage.getItem('anmerkungen'));
+        if (state === false || state === 'false') {
+          summary.removeAttribute('open');
+          console.log(`63, ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
+        }
+        console.log(`60 ls was set to ${state}. with type ${typeof state} doing nothing`);
+      }
+    });*/
+    async function name(params) {
+        if (localStorage.getItem('anmerkungen') === null) {
+          localStorage.setItem('anmerkungen', true);
+          console.log('56 ls wasnt set. now set to true');
+        } else {
+          // Key exists in localStorage
+          let state = JSON.parse(localStorage.getItem('anmerkungen'));
+          if (state === false || state === 'false') {
+            summary.removeAttribute('open');
+            console.log(`77, ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
+          }
+        }
+    }
+    setTimeout(12000, name());
+
+    summary.addEventListener('click', async () => {  
+      if (localStorage.getItem('anmerkungen') === null) {
+          localStorage.setItem('anmerkungen', false);
+        } else {
+          // Key exists in localStorage
+        
+
+          let state = JSON.parse(localStorage.getItem('anmerkungen'));
+          console.log(`72 ls was set to ${state} with type ${typeof state}. now toggling`);
+          state = !state;
+          console.log(`74 ls was toggled to ${state}.`);
+          localStorage.setItem('anmerkungen', state);
+          console.log(`76 and saved as ${state}.`);
+        } 
+    });
+    
+    /*const details = document.getElementById('anmerkungen');
+    if (!localStorage.getItem('anmerkungen')) {
+      localStorage.setItem('anmerkungen', true);
+    }
+    details.addEventListener('load', async () => {
+      const state = localStorage.getItem('anmerkungen');
+      
+      if (state.open === 'false' || state === null) {
+        localStorage.setItem('anmerkungen', true);
+      } else {
+        details.setAttribute('open', state);
+      }
+    });
+    
+    details.addEventListener('click', () => {
+      let state = localStorage.getItem('anmerkungen');
+      console.log('old', state);
+      if (state === null) {
+        localStorage.setItem('anmerkungen', false);
+        console.log('null', state);
+        return;
+      }
+      state = !state;
+      /*state = state ? 'true' : 'false';* /
+      console.log('switch', state);
+      localStorage.setItem('anmerkungen', state);
+      console.log('set', state);
+    });*/
+  </script>
+  <style>
+    body {
+      min-height: 100vh; /* Footer nach unten drücken */
+      display: flex;
+      flex-direction: column;
+    }
+    /* a:link, a:visited, a:focus, a:hover, a:active */
+    
+    footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      margin-top: auto;
+      background: #ffffff57;
+      backdrop-filter: blur(5px);
+      padding: 3px;
+      box-shadow: 0px 0px 13px 14px #ffffff57;
+      border-radius: 3%;
+      width: 90%;
+    }
+    .glider {
+      /*box-shadow: 0 2px 2px 8px #09090987;*/
+      box-shadow:
+        0 2px 2px 8px #09090938,
+        0 4px 4px 12px #09090938,
+        0 8px 8px 16px #09090938;
+    }
+    .glider-contain {
+      width: 75%;
+      max-height: 40vh;
+      margin: 30px auto;
+    }
+    .card {
+      min-height: 6em /*!important*/;
+      height: calc(0.25 * 100vh) !important;
+      max-height: 300px !important;
+      background-color: #333;
+      text-align: center;
+
+      /* vertical align */
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .btn {
+      /*border: none;*/
+    }
+    .forgot, .remember {
+      margin: auto 20px;
+      margin: auto 0.5em;
+    }
+    .forgot {
+      color: #f00;
+      /*justify-content: flex-start;*/
+      /*background-color: #f00;*/
+    }
+    .remember {
+      color: #0f0;
+      /*background-color: #0f0;*/
+      /*justify-content: flex-end;*/
+    }
+    .btn-wrapper {
+      position: -webkit-sticky; /* Safari */
+      position: sticky;
+      bottom: 0;
+      flex-shrink: 0;
+      align-content: center;
+      margin: auto auto 0 auto;
+    }
+    .footer-btn-container {
+      /*flex:;*/
+    }
+    details {
+      background-color: #333;
+      text-align: center;
+      padding: 0.3em;
+      margin: auto 2em;
+    }
+    details[open] {
+      padding: 0.3em;
+      margin: 0;
+    }
+    .details-content {
+      overflow: scroll;
+      height: 40vh;
+      margin: 10px;
+      text-align: center;
+    }
+    details p, .detail-desc {
+      hyphens: auto;
+      text-align: justify;
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+    }
+    details img {
+      height: 65%;
+      /*height: 70%;
+      width: auto;*/
+      aspect-ratio: auto;
+      /*width: 100%;*/
+      /* Bilder für dunklen Modus abdunkeln */
+      filter: brightness(.8) contrast(1.2);
+    }
+  </style>
+</main>
+<footer class="btn-wrapper" id="">
+  <!--<section class="footer-btn-container">-->
+  <button type="button" id="btn" class="btn forgot disable" disabled="true">✖️ <br />Vergessen</button>
+  <button type="button" id="btn" class="btn remember">✔️ <br />Auswendig</button>
+  <!--</section>-->
+</footer>
+    <!--</main>-->
+    <script src="scripts/glider-compat.min.js" defer></script>
+    <script src="scripts/glider.min.js" defer></script>
+    <script defer >
+      /*// Offline Functionality
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('../scripts/sw.js');
+        });
+      }*/
+
+      /*
+      const test = document.getElementById('test');
+      async function testFunc() {
+        console.log('Funktion wurde aufgerufen');
+      };
+      */
+    </script>
+  </body>
+</html>
