@@ -78,7 +78,7 @@
   <details class="anmerkungen" id="anmerkungenDetails" open>
     <summary id="anmerkungenSummary">Anmerkungen</summary>
     <div class="details-content">
-      <img src="img/Kartoffeln.jpg" />
+      <img src="img/Kartoffeln.jpg" alt="" />
       <p class="detail-desc">
         This could be a description of the vocabulary.
         For example the meaning or the hy-phen-ation of a word.
@@ -217,7 +217,46 @@
       /* Bilder für dunklen Modus abdunkeln */
       filter: brightness(.8) contrast(1.2);
     }
+    input, legend, label, fieldset, summary {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    input[type=checkbox], input[type=radio], label {
+      cursor: pointer;
+    }
+    dialog {
+      background-color: #2e2e2e;
+      color: #fff;
+    }
   </style>
+  <dialog id="dialog">
+    <h3>Einstellungen</h3>
+    <form id="dialog-form">
+      <input type="text" id="1inp" name="1inp" placeholder="user@email.com" inputmode="text" autofocus />
+      <input type="number" id="pinInp" name="pinInp" placeholder="4242" inputmode="numeric" />
+      <fieldset>
+        <legend>radios</legend>
+        <input type="radio" id="contactChoice1" name="contact" value="email" />
+        <label for="contactChoice1">Email</label>
+        <input type="radio" id="contactChoice2" name="contact" value="phone" />
+        <label for="contactChoice2">Phone</label>
+        <input type="radio" id="contactChoice3" name="contact" value="mail" />
+        <label for="contactChoice3">Mail</label>
+      </fieldset>
+      <fieldset>
+        <legend>Kreuzen Sie die gewünschten Zutaten an:</legend>
+        <input type="checkbox" id="opd" name="opd" value="opd" />
+        <label for="opd"> Option A,</label> 
+        <input type="checkbox" id="ope" name="ope" value="ope" />
+        <label for="ope"> Option B</label>
+        <input type="checkbox" id="opf" name="opf" value="opf" />
+        <label for="opf"> Option C</label>
+      </fieldset>
+    </form>
+    <button id="dialog-close">close</button>
+  </dialog>
 </main>
 <footer class="btn-wrapper" id="">
   <!--<section class="footer-btn-container">-->
@@ -228,22 +267,8 @@
     <!--</main>-->
     <script src="scripts/glider-compat.min.js" defer></script>
     <script src="scripts/glider.min.js" defer></script>
-    <script defer >
-      /*// Offline Functionality
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('../scripts/sw.js');
-        });
-      }*/
-
-      /*
-      const test = document.getElementById('test');
-      async function testFunc() {
-        console.log('Funktion wurde aufgerufen');
-      };
-      */
-    </script>
     <script defer>
+      /* GLIDER */
       window.addEventListener('load', async () => {
         new Glider(document.querySelector('.glider'), {
           slidesToShow: 1,
@@ -258,64 +283,186 @@
         });
       });
 
-      //localStorage.clear();
+      /* DETAILS TOGGLE */
       const details = document.getElementById('anmerkungenDetails')
       const summary = document.getElementById('anmerkungenSummary');
 
       window.addEventListener('load', async () => {
         console.log('exec load')
-        // key nonexistent
+        /* key nonexistent */
         if (localStorage.getItem('anmerkungen') === null) {
           localStorage.setItem('anmerkungen', true);
-          console.log('NE: ls wasnt set. now set to true');
         } else {
-          // Key exists in localStorage
+          /* Key exists in localStorage */
           let state = JSON.parse(localStorage.getItem('anmerkungen'));
           if (state === false || state === 'false') {
             details.removeAttribute('open');
-            console.log(`KE: ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
           }
-          // console.log(`ls was set to ${state}. with type ${typeof state} doing nothing`);
         }
       });
-
-      async function name(params) {
-          if (localStorage.getItem('anmerkungen') === null) {
-            localStorage.setItem('anmerkungen', true);
-            console.log('56 ls wasnt set. now set to true');
-          } else {
-            // Key exists in localStorage
-            let state = JSON.parse(localStorage.getItem('anmerkungen'));
-            if (state === false || state === 'false') {
-              details.removeAttribute('open');
-              console.log(`77, ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
-            }
-          }
-      }
-      setTimeout(12000, name());
 
       summary.addEventListener('click', async () => {  
         if (localStorage.getItem('anmerkungen') === null) {
             localStorage.setItem('anmerkungen', false);
           } else {
-            // Key exists in localStorage
-
-
+            /* Key exists in localStorage */
             let state = JSON.parse(localStorage.getItem('anmerkungen'));
-            console.log(`72 ls was set to ${state} with type ${typeof state}. now toggling`);
             state = !state;
-            console.log(`74 ls was toggled to ${state}.`);
+            console.log('toggled details and saved state')
             localStorage.setItem('anmerkungen', state);
-            console.log(`76 and saved as ${state}.`);
           } 
       });
-      console.log('test');
+
+      /* IndexedDB */
+
+      /* Öffnen der IndexedDB-Datenbank */
+      const dbName = 'meineDatenbank';
+      const objStoreName = 'vocabulary';
+      const dbVersion = 1;
+
+      let db;
+
+      async function openDB() {
+        return new Promise((resolve, reject) => {
+          const request = indexedDB.open(dbName, dbVersion);
+
+          request.onerror = async (event) => {
+            reject('Fehler beim Öffnen der Datenbank');
+          };
+
+          request.onsuccess = async (event) => {
+            db = event.target.result;
+            resolve('Datenbank erfolgreich geöffnet');
+          };
+
+          request.onupgradeneeded = async (event) => {
+            const db = event.target.result;
+
+            /* Erstellen Sie einen Object Store (falls nicht vorhanden) */
+            if (!db.objectStoreNames.contains(objStoreName)) {
+              const objectStore = db.createObjectStore(objStoreName, { keyPath: 'id', autoIncrement: true });
+            }
+          };
+        });
+      }
+
+      /* Hinzufügen eines Elements */
+      async function addElement(engVocab, gerVocab, desc) {
+        await openDB();
+
+        const transaction = db.transaction([objStoreName], 'readwrite');
+        const objectStore = transaction.objectStore(objStoreName);
+
+        const newItem = { desc: 'Eine Beschreibung', engVocab: 'potato', gerVocab: 'Kartoffel' };
+        /*const newItem = { desc: desc, engVocab: engVocab, gerVocab: gerVocab };*/
+
+        const request = objectStore.add(newItem);
+
+        request.onsuccess = async (event) => {
+            console.log('Element erfolgreich hinzugefügt');
+        };
+
+        request.onerror = async (event) => {
+        console.error('Fehler beim Hinzufügen des Elements');
+        };
+      }
+
+      /* Lesen und Anzeigen aller Elemente */
+      async function readElements() {
+        await openDB();
+
+        const transaction = db.transaction([objStoreName], 'readonly');
+        const objectStore = transaction.objectStore(objStoreName);
+
+        const request = objectStore.getAll();
+
+        request.onsuccess = async (event) => {
+          const elements = event.target.result;
+          console.log('Gelesene Elemente:', elements);
+
+          /* Hier sind die Elemente */
+          return elements;
+        };
+
+        request.onerror = async (event) => {
+            console.error('Fehler beim Lesen der Elemente');
+        };
+      }
+
+      /* Lesen und Anzeigen bestimmter Elemente */
+      async function readAndDisplayFilteredElements(filter) {
+        await openDB();
+
+        const transaction = db.transaction([objStoreName], 'readonly');
+        const objectStore = transaction.objectStore(objStoreName);
+
+        const elements = [];
+
+        // Öffnet einen Cursor und durchläuft die Elemente
+        const cursorRequest = objectStore.openCursor();
+
+        cursorRequest.onsuccess = async (event) => {
+          const cursor = event.target.result;
+
+          if (cursor) {
+            // Überprüfe, ob das Element die Filterbedingung erfüllt
+            if (filter(cursor.value)) {
+              elements.push(cursor.value);
+            }
+
+            cursor.continue();
+          } else {
+            // Alle Elemente wurden durchlaufen, zeige die ausgewählten Elemente an
+            console.log('Ausgewählte Elemente:', elements);
+
+            // Hier könntest du den Code hinzufügen, um die Elemente auf der Seite anzuzeigen
+          }
+        };
+
+        cursorRequest.onerror = async (event) => {
+          console.error('Fehler beim Lesen der Elemente');
+        };
+      }
+
+      // Beispielaufruf mit einer einfachen Filterbedingung (z.B., Elemente mit einem bestimmten Text)
+      readAndDisplayFilteredElements((element) => element.text === 'Gesuchter Text');
+
+      /* IndexedDB Löschen */
+      /* const deleteDatabase = document.getElementById('deleteDatabase'); 
+      deleteDatabase.addEventListener('click', deleteDatabase());
+
+      async function deleteDatabase() {
+
+        try {
+          /* Schließe die Datenbank, bevor du sie löschst * /
+          if (db) {
+              db.close();
+          }
+
+          /* Lösche die Datenbank * /
+          const deleteRequest = indexedDB.deleteDatabase(dbName);
+
+          deleteRequest.onsuccess = async (event) => {
+              console.log('Datenbank erfolgreich gelöscht');
+          };
+
+          deleteRequest.onerror = async (event) => {
+              console.error('Fehler beim Löschen der Datenbank');
+          };
+        } catch (error) {
+          console.error('Fehler beim Löschen der Datenbank:', error);
+        }
+      }
+      */
+
+
+      /* NEXT VOCAB */
       const successBtn = document.getElementById('successBtn');
       const failBtn = document.getElementById('failBtn');
       const gerVocab = document.getElementById('gerVocab');
       const engVocab = document.getElementById('engVocab');
       const fruits = ["apple", "banana", "cherry", "honey", "blackberry", "grape", "kiwi", "lemon", "mango", "orange"];
-      const fruchte = ["Apfel", "Banane", "Kirsche", "Honig", "Brombeere", "Trauben", "kiwi", "Zitrone", "Mango", "Orange"];
+      const fruchte = ["Apfel", "Banane", "Kirsche", "Honig", "Brombeere", "Trauben", "Kiwi", "Zitrone", "Mango", "Orange"];
 
       successBtn.addEventListener('click', getNewVocab);
       failBtn.addEventListener('click', getNewVocab);
@@ -329,10 +476,25 @@
       }
 
       // SETTINGS
-      const settingsBtn = document.getElementById('settings');
-      settingsBtn.addEventListener('click', async () => {
-        alert('Not yet implemented!');
+      const settingsOpenBtn = document.getElementById('settings');
+      const settingsDialog = document.getElementById('dialog');
+      settingsOpenBtn.addEventListener('click', async () => {
+        settingsDialog.showModal();
+        /* alert('Not yet implemented!'); */
       });
+      const dialogCloseBtn = document.getElementById('dialog-close');
+      dialogCloseBtn.addEventListener('click', async () => {
+        settingsDialog.close();
+      });
+
+      /*
+      /* Offline Functionality * /
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          navigator.serviceWorker.register('../scripts/sw.js');
+        });
+      }
+      */
     </script>
   </body>
 </html>
