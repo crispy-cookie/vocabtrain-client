@@ -75,10 +75,9 @@
     <button aria-label="Next" class="glider-next">&#11106</button>-->
     <div role="tablist" class="dots"></div>
   </div>
-  <details class="anmerkungen" id="" open>
-    <summary id="anmerkungen">Anmerkungen</summary>
+  <details class="anmerkungen" id="anmerkungenDetails" open>
+    <summary id="anmerkungenSummary">Anmerkungen</summary>
     <div class="details-content">
-      <!--<img src="img/lichtenstein.jpg" />-->
       <img src="img/Kartoffeln.jpg" />
       <p class="detail-desc">
         This could be a description of the vocabulary.
@@ -91,7 +90,7 @@
           <li>"I bought some potatoes at the grocery store."</li>
         </ul>
 
-        Here, have some Lorem Ipsum :)
+        Here, have some Lorem Ipsum
         Perspiciatis id non accusamus repellendus et. Modi at enim accusantium minima voluptas maiores. Eos qui dolores repudiandae quibusdam non reprehenderit est laudantium. Ducimus sint quis consequatur. Molestias explicabo repellendus odit. Repudiandae ut reiciendis rerum.
       </p>
     </div>
@@ -104,7 +103,9 @@
       flex-direction: column;
     }
     /* a:link, a:visited, a:focus, a:hover, a:active */
-    
+    nav ul {
+      list-style: none;
+    }
     footer {
       display: flex;
       flex-direction: row;
@@ -128,6 +129,12 @@
       width: 75%;
       max-height: 40vh;
       margin: 30px auto;
+    }
+    .glider-dots {
+      margin-top: 0.5em;
+    }
+    .glider-dot.active {
+      background-color: #0f0 ;
     }
     .card {
       min-height: 6em /*!important*/;
@@ -174,6 +181,10 @@
       text-align: center;
       padding: 0.3em;
       margin: auto 2em;
+      box-shadow:
+      0 2px 2px 8px #09090938,
+      0 4px 4px 12px #09090938,
+      0 8px 8px 16px #09090938;
     }
     details[open] {
       padding: 0.3em;
@@ -188,6 +199,9 @@
     details p, .detail-desc {
       hyphens: auto;
       text-align: justify;
+    }
+    button, summary {
+      cursor: pointer;
     }
     main {
       display: flex;
@@ -245,22 +259,26 @@
       });
 
       //localStorage.clear();
-      const summary = document.getElementById('anmerkungen');
+      const details = document.getElementById('anmerkungenDetails')
+      const summary = document.getElementById('anmerkungenSummary');
 
-      /*summary.addEventListener('load', async () => {
+      window.addEventListener('load', async () => {
+        console.log('exec load')
+        // key nonexistent
         if (localStorage.getItem('anmerkungen') === null) {
           localStorage.setItem('anmerkungen', true);
-          console.log('56 ls wasnt set. now set to true');
+          console.log('NE: ls wasnt set. now set to true');
         } else {
           // Key exists in localStorage
           let state = JSON.parse(localStorage.getItem('anmerkungen'));
           if (state === false || state === 'false') {
-            summary.removeAttribute('open');
-            console.log(`63, ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
+            details.removeAttribute('open');
+            console.log(`KE: ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
           }
-          console.log(`60 ls was set to ${state}. with type ${typeof state} doing nothing`);
+          // console.log(`ls was set to ${state}. with type ${typeof state} doing nothing`);
         }
-      });*/
+      });
+
       async function name(params) {
           if (localStorage.getItem('anmerkungen') === null) {
             localStorage.setItem('anmerkungen', true);
@@ -269,7 +287,7 @@
             // Key exists in localStorage
             let state = JSON.parse(localStorage.getItem('anmerkungen'));
             if (state === false || state === 'false') {
-              summary.removeAttribute('open');
+              details.removeAttribute('open');
               console.log(`77, ls was set to ${state}. with type ${typeof state}. CLOSING DETAILS`);
             }
           }
@@ -309,10 +327,12 @@
         gerVocab.textContent = fruchte[randomFruitIndex];
         engVocab.textContent = fruits[randomFruitIndex];
       }
+
+      // SETTINGS
       const settingsBtn = document.getElementById('settings');
       settingsBtn.addEventListener('click', async () => {
         alert('Not yet implemented!');
-      })
+      });
     </script>
   </body>
 </html>
