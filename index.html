@@ -56,7 +56,7 @@
     </style>
     <nav>
       <ul>
-        <!--<li><a href="#index" rel="noreferrer noopener" >Start</a></li>-->
+        <li><a href="audio.html" rel="noreferrer noopener" >Audio</a></li>
         <li><button type="button" id="settings">⚙️Einstellungen</button></li>
       </ul>
     </nav>
@@ -234,7 +234,7 @@
   <dialog id="dialog">
     <h3>Einstellungen</h3>
     <form id="dialog-form">
-      <input type="text" id="1inp" name="1inp" placeholder="user@email.com" inputmode="text" autofocus />
+      <input type="text" id="firstInp" name="firstInp" placeholder="user@email.com" inputmode="text" autofocus />
       <input type="number" id="pinInp" name="pinInp" placeholder="4242" inputmode="numeric" />
       <fieldset>
         <legend>radios</legend>
@@ -268,6 +268,7 @@
     <script src="scripts/glider-compat.min.js" defer></script>
     <script src="scripts/glider.min.js" defer></script>
     <script defer>
+      'use_strict';
       /* GLIDER */
       window.addEventListener('load', async () => {
         new Glider(document.querySelector('.glider'), {
@@ -346,15 +347,15 @@
         });
       }
 
-      /* Hinzufügen eines Elements */
+      /* Hinzufügen eines Elements zur IDB */
       async function addElement(engVocab, gerVocab, desc) {
         await openDB();
 
         const transaction = db.transaction([objStoreName], 'readwrite');
         const objectStore = transaction.objectStore(objStoreName);
 
-        const newItem = { desc: 'Eine Beschreibung', engVocab: 'potato', gerVocab: 'Kartoffel' };
-        /*const newItem = { desc: desc, engVocab: engVocab, gerVocab: gerVocab };*/
+        /*const newItem = { desc: 'Eine Beschreibung', engVocab: 'potato', gerVocab: 'Kartoffel' };*/
+        const newItem = { desc: desc, engVocab: engVocab, gerVocab: gerVocab };
 
         const request = objectStore.add(newItem);
 
@@ -475,7 +476,7 @@
         engVocab.textContent = fruits[randomFruitIndex];
       }
 
-      // SETTINGS
+      /* SETTINGS */
       const settingsOpenBtn = document.getElementById('settings');
       const settingsDialog = document.getElementById('dialog');
       settingsOpenBtn.addEventListener('click', async () => {
@@ -484,9 +485,70 @@
       });
       const dialogCloseBtn = document.getElementById('dialog-close');
       dialogCloseBtn.addEventListener('click', async () => {
+        const dialogForm = document.getElementById('dialog-form');
         settingsDialog.close();
-      });
+        /* save settings in localStorage */
 
+        const formData = new FormData(dialogForm);
+        /*console.log(formData);*/
+        formData.forEach((value, key) => {
+          /*console.log(`${key}: ${value}`);*/
+          localStorage.setItem(key, value);
+        })
+        .then(async () => {
+          console.log('Einstellungen erfolgreich im localStorage gespeichert.');
+        })
+        .catch(async (error) => {
+          console.error('Einstellungen konnten nicht gespeichert werden', error);
+        })
+        
+        /*settingsToServer(formData);*/
+
+        /*
+        // craft body response:
+        const dataToSend = {
+          key1: 'value1',
+          key2: 'value2'
+        };
+        const bodyData = JSON.stringify(dataToSend);
+        [code...]
+        body: bodyData
+        */
+        async function settingsToServer(dataToSend) {
+          alert('server offline, save failed, try again later');
+          console.log('server offline');
+          return;
+          
+          /*const hardDataToSend = {
+            key1: 'value1',
+            key2: 'value2'
+          };*/
+
+          fetch('api/data', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(dataToSend)
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Netzwerkfehler');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Erfolgreich gesendet:', data);
+          })
+          .catch(error => {
+            console.error('Fehler beim Senden der Daten:', error);
+          });
+        }
+        /* save settings on server with fetch */
+        /* use background fetch / sync */
+      });
+      
+      
       /*
       /* Offline Functionality * /
       if ('serviceWorker' in navigator) {
@@ -495,6 +557,25 @@
         });
       }
       */
+    </script>
+    <script src="" async></script>
+    <script>
+      /*async function populateIDB(data) {
+        console.log('populate IDB here');
+        /*addElement('potato', 'Kartoffel', 'Eine Beschreibung');* /
+      }*/
+      async function populate(data) {
+        console.log('check IDB population');
+        if (JSON.parse(localStorage.getItem('populated') === 'true')) {
+          return;
+        }
+        else {
+          console.log('populating IDB');
+          localStorage.setItem('populated', true);
+          populateIDB(data);
+        }
+      }
+      populate(data);
     </script>
   </body>
 </html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VocabTrainEr</title>
+    <link href="css/normalize.min.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="css/glider.min.css" rel="stylesheet" type="text/css" media="screen"/>
+    <!--<link href="css/framework7-bundle.min.css" rel="stylesheet" type="text/css" media="screen"/>-->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link rel="alternate shortcut icon" type="image/svg" href="img/metro.svg">
+    <link rel="manifest" href="app.webmanifest">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2196f3">
+    <meta name="robots" content="nofollow">
+    <meta name="description" content="Beschreibung der Seite">
+    <style>
+      body {
+        background-color: #5b5b5b;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        padding: 2em;
+      }
+    </style>
+  </head>
+  <body style="background-color: #5b5b5b;">
+    <main>
+      <audio controls="" autoplay="">
+        <source type="audio/mpeg" src="audio/tts.mp3">
+        Your browser does not support the audio element.
+      </audio>
+      <br>
+      <br>
+      <figure>
+        <img src="img/Kartoffeln.jpg" alt="image of potatoes for context" height="auto" width="256px">
+        <figcaption>image of potatoes for context</figcaption>
+      </figure>
+      <br>
+      <br>
+      <label for="answer">The audio says:</label>
+      <input type="text" name="answer" value="" id="answer" placeholder="Ich koche...">
+      <button type="button" id="answerBtn">Submit answer</button>
+    </main>
+    <script>
+      const answerInp = document.getElementById('answer');
+      const answerBtn = document.getElementById('answerBtn');
+
+      answerBtn.addEventListener('click', async () => {
+        const answerGiven = answerInp.value;
+        const answerLk = answerGiven.toLowerCase();
+        const answerKey = 'ich koche gerne kartoffeln'
+        if (answerLk === answerKey) {
+          alert('Correct!');
+        } else {
+          alert('Wrong - The answer was: Ich koche gerne Kartoffeln');
+        }
+      });
+    </script>
+  </body>
+</html>
