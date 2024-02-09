@@ -14,8 +14,8 @@
   "description": "Beschreibung",
   "lang": "de",
   "categories": ["books", "education", "documentary"],
-  "background_color": "#70028E",
-  "theme_color": "#29018F",
+  "background_color": "#0E0327",
+  "theme_color": "#6421F3",
   "orientation": "any",
   "dir": "ltr"
 }
