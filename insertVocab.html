@@ -24,7 +24,7 @@
     </style>
   </head>
   <body>
-    <textarea id="entryTextarea" rows="5" cols="50">
+    <textarea id="entryTextarea" rows="15" cols="28">
       abfahren$ Der Zug wird um 10 Uhr abfahren.
       abgeben$ Bitte geben Sie das Paket an der Rezeption ab.
       abholen$ Ich muss meine Schwester vom Bahnhof abholen.
@@ -578,15 +578,17 @@
       zwischen$ Das Geschäft liegt zwischen der Bank und dem Supermarkt.
     </textarea>
     <br />
+    <br />
     <button id="saveEntriesBtn" type="button" disabled>Einträge speichern</button>
-    <textarea id="errorTextarea" rows="5" cols="50" disabled>
+    <br />
+    <textarea id="errorTextarea" rows="5" cols="28" disabled>
     </textarea>
     <script>
       const saveEntriesBtn = document.getElementById('saveEntriesBtn');
       
       /* DB schon voll > deaktivieren */
       if (JSON.parse(localStorage.getItem('db_populated') === 'true')) {
-        saveEntriesBtn.addAttribute('disabled');
+        saveEntriesBtn.setAttribute('disabled', 'true');
         console.log('full');
         alert('DB schon voll');
         setTimeout(async () => {

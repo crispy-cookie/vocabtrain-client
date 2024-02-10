@@ -34,6 +34,8 @@
         <source type="audio/mpeg" src="audio/tts.mp3">
         Your browser does not support this mpeg-mp3 audio element.
       </audio>
+      <br />
+      <p id="askVocab">Kartoffel</p>
       <br>
       <br>
       <figure>
@@ -48,23 +50,72 @@
     </main>
     <script>
       const audioTag = document.getElementById('audioTag');
+      let askVocab = document.getElementById('askVocab');
       const answerInp = document.getElementById('answer');
       const answerBtn = document.getElementById('answerBtn');
+      let answerKey = 'ich koche gerne kartoffeln';
 
       answerBtn.addEventListener('click', async () => {
         const answerGiven = answerInp.value;
-        const answerLC = answerGiven.toLowerCase();
-        const answerNC.replace(/[,\.]/g, '');
-        const answerKey = 'ich koche gerne kartoffeln'
-        if (answerNC === answerKey) {
+        const answerLCR = answerGiven.toLowerCase().replace(/[,\.]/g, '');
+        answerKey.toLowerCase().replace(/[,\.]/g, '');
+        /* answerKey = 'ich koche gerne kartoffeln'; */
+        if (answerLCR === answerKey) {
           alert('Correct!');
+          loadEntryFromDB();
         } else {
-          alert(`Wrong - The answer was: Ich koche gerne Kartoffeln $ {}`);
+          alert(`Wrong - The answer was: ${answerKey}`);
         }
       });
-      /*
-      audioTag.setAttribute('src', 'AUDIO_SRC_FILE');
-      */
+      async function loadEntryFromDB() {
+        try {
+          const db = await openDatabase();
+          const transaction = db.transaction(['eintrage'], 'readonly');
+          const objectStore = transaction.objectStore('eintrage');
+
+          /*const request = objectStore.get(/* Hier den Schlüssel des gewünschten Eintrags angeben * /);*/
+          const request = objectStore.get(Math.floor(Math.random() * 551);
+          request.onsuccess = async function(event) {
+            const entry = request.result;
+            if (entry) {
+              askVocab.textContent = entry.vokabel;
+              // Hier kannst du den Beispielsatz als Konstante zugänglich machen, z.B.
+            /* const answerKey = entry.beispielsatz.toLowerCase().replace(/[,\.]/g, ''); */
+              answerKey = entry.beispielsatz;
+              // Weitere Verarbeitung...
+              await audioTag.setAttribute('src', `https://lingv.onrender.com/api/tts?lang=de&engine=google&text=${encodeURIComponent(answerKey)}`);
+              await audioTag.load();
+              await audioTag.play();
+            } else {
+              console.log('Eintrag nicht gefunden');
+            }
+          };
+
+          request.onerror = async function(event) {
+            console.error('Fehler beim Laden des Eintrags aus der IndexedDB');
+          };
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      async function openDatabase() {
+        const request = window.indexedDB.open('EintraegeDB', 1);
+        return new Promise((resolve, reject) => {
+          request.onerror = function(event) {
+            reject('Fehler beim Öffnen der Datenbank');
+          };
+
+          request.onsuccess = function(event) {
+            const db = request.result;
+            resolve(db);
+          };
+
+          request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            db.createObjectStore('eintrage', { keyPath: 'id', autoIncrement:true });
+          };
+        });
+      }
     </script>
   </body>
 </html>
