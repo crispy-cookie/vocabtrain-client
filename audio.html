@@ -58,9 +58,8 @@
       answerBtn.addEventListener('click', async () => {
         const answerGiven = answerInp.value;
         const answerLCR = answerGiven.toLowerCase().replace(/[,\.]/g, '');
-        answerKey.toLowerCase().replace(/[,\.]/g, '');
         /* answerKey = 'ich koche gerne kartoffeln'; */
-        if (answerLCR === answerKey) {
+        if (answerLCR === answerKey.toLowerCase().replace(/[,\.]/g, '')) {
           alert('Correct!');
           loadEntryFromDB();
         } else {
