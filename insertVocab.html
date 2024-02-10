@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VocabTrainEr</title>
+    <link href="css/normalize.min.css" rel="stylesheet" type="text/css" media="screen"/>
+    <!--<link href="css/glider.min.css" rel="stylesheet" type="text/css" media="screen"/>
+    <!--<link href="css/framework7-bundle.min.css" rel="stylesheet" type="text/css" media="screen"/>-->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link rel="alternate shortcut icon" type="image/svg" href="img/metro.svg">
+    <link rel="manifest" href="app.webmanifest">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#6421F3">
+    <meta name="robots" content="nofollow">
+    <meta name="description" content="Beschreibung der Seite">
+    <style>
+      body {
+        background-color: #5b5b5b;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        padding: 2em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="entryTextarea" rows="5" cols="50">
+      test$ example
+    </textarea>
+    <br />
+    <button id="saveEntries" type="button" disabled>Einträge speichern</button>
+    <textarea id="errorTextarea" rows="5" cols="50" disabled>
+    </textarea>
+    <script>
+      const saveEntriesBtn = document.getElementById('saveEntriesBtn');
+      
+      /* DB schon voll > deaktivieren */
+      if (JSON.parse(localStorage.getItem('db_populated') === 'true')) {
+        saveEntriesBtn.addAttribute('disabled');
+        console.log('full');
+        alert('DB schon voll');
+        setTimeout(async () => {
+          window.location.replace('https://crispy-cookie.github.io/vocabtrain-client/audio.html');
+        }, 2000);
+        return;
+      }
+      /* DB leer > befuellen */
+      else {
+        saveEntriesBtn.removeAttribute('disabled');
+        localStorage.setItem('db_populated', true);
+        console.log('empty');
+      }
+      
+      saveEntriesBtn.addEventListner('click', async () => {
+        console.log('run and save');
+        localStorage.setItem('db_populated', true);
+        saveEntries();
+      });
+      
+      async function openDatabase() {
+        const request = window.indexedDB.open('EintraegeDB', 1);
+        return new Promise((resolve, reject) => {
+          request.onerror = function (event) {
+            reject('Fehler beim Öffnen der Datenbank');
+          };
+
+          request.onsuccess = function (event) {
+            const db = request.result;
+            resolve(db);
+          };
+
+          request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+            db.createObjectStore('eintrage', { keyPath: 'id', autoIncrement: true });
+          };
+        });
+      }
+
+      async function saveEntries() {
+        const textareaValue = document.getElementById('entryTextarea').value;
+        const entries = textareaValue
+          .split('\n')
+          .filter((entry) => entry.trim() !== '');
+
+        try {
+          const db = await openDatabase();
+          const transaction = db.transaction(['eintrage'], 'readwrite');
+          const objectStore = transaction.objectStore('eintrage');
+
+          for (const entry of entries) {
+            const [vokabel, beispielsatz] = entry
+              .split('$')
+              .map((part) => part.trim());
+            const request = objectStore.add({ vokabel, beispielsatz });
+
+            await new Promise((resolve, reject) => {
+              request.onsuccess = function (event) {
+                resolve();
+              };
+
+              request.onerror = function (event) {
+                reject('Fehler beim Hinzufügen des Eintrags');
+              };
+            });
+          }
+
+          console.log('Einträge erfolgreich hinzugefügt');
+          alert('Success! Inserted elements.');
+          localStorage.setItem('db_populated', true);
+          setTimeout(async () => {
+            window.location.replace('https://crispy-cookie.github.io/vocabtrain-client/audio.html');
+          }, 2000);
+        } catch (error) {
+          console.error(error);
+          alert('ERROR! report this error with the error message attached below');
+          const errorTextarea = document.getElementById('errorTextarea');
+          errorTextarea.value = error;
+          saveEntriesBtn.removeAttribute('disabled');
+        }
+      }
+    </script>
+  </body>
+</html>
