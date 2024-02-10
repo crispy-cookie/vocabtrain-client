@@ -23,6 +23,9 @@
         flex-direction: column;
         padding: 2em;
       }
+      figure img {
+        filter: blur(4px) brightness(0.30);
+      }
     </style>
   </head>
   <body style="background-color: #5b5b5b;">
@@ -35,7 +38,7 @@
       <br>
       <figure>
         <img src="img/Kartoffeln.jpg" alt="image of potatoes for context" height="auto" width="256px">
-        <figcaption>image of potatoes for context</figcaption>
+        <figcaption>image for context. This feature is WIP.</figcaption>
       </figure>
       <br>
       <br>
@@ -49,12 +52,13 @@
 
       answerBtn.addEventListener('click', async () => {
         const answerGiven = answerInp.value;
-        const answerLk = answerGiven.toLowerCase();
+        const answerLC = answerGiven.toLowerCase();
+        const answerNC.replace(/[,\.]/g, '');
         const answerKey = 'ich koche gerne kartoffeln'
-        if (answerLk === answerKey) {
+        if (answerNC === answerKey) {
           alert('Correct!');
         } else {
-          alert('Wrong - The answer was: Ich koche gerne Kartoffeln');
+          alert(`Wrong - The answer was: Ich koche gerne Kartoffeln $ {}`);
         }
       });
     </script>
