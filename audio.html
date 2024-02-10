@@ -16,7 +16,7 @@
     <meta name="description" content="Beschreibung der Seite">
     <style>
       body {
-        background-color: #5b5b5b;
+        background-color: #222;
       }
       main {
         display: flex;
@@ -26,24 +26,28 @@
       figure img {
         filter: blur(4px) brightness(0.30);
       }
+      #answerBtn, #answer, #askVocab {
+        margin: 0.7em 0em;
+        padding: 0.7em;
+      }
     </style>
   </head>
   <body style="background-color: #5b5b5b;">
     <main>
-      <audio id="audioTag" controls="" autoplay="">
-        <source type="audio/mpeg" src="audio/tts.mp3">
-        Your browser does not support this mpeg-mp3 audio element.
-      </audio>
-      <br />
-      <p id="askVocab">Kartoffel</p>
-      <br>
-      <br>
       <figure>
         <img src="img/Kartoffeln.jpg" alt="image of potatoes for context" height="auto" width="256px">
         <figcaption>image for context. This feature is WIP.</figcaption>
       </figure>
       <br>
       <br>
+      <p id="askVocab">Kartoffel</p>
+      <br>
+      <br>
+      <audio id="audioTag" controls="" autoplay="">
+        <source type="audio/mpeg" src="audio/tts.mp3">
+        Your browser does not support this mpeg-mp3 audio element.
+      </audio>
+      <br />
       <label for="answer">The audio says:</label>
       <input type="text" name="answer" value="Ich koche gerne Kartoffeln." id="answer" placeholder="Ich koche..." autofocus>
       <button type="button" id="answerBtn">Submit answer</button>

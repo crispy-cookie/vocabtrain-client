@@ -36,6 +36,7 @@ p {
 header
 ul
 nav
+
 main {
   min-height: 100vh; /* Footer nach unten drücken */
 }
@@ -46,7 +47,7 @@ main {
   main a,
   .btn, .btn:hover, .btn:active, .btn:focus,
   footer a,
-  nav li a,
+  nav li a
   {
     transition: none !important;
   }
