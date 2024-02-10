@@ -1,3 +1,3 @@
 # vocabtrain-client
 
-v1
+v2
