@@ -600,7 +600,7 @@
         console.log('empty');
       }
       
-      saveEntriesBtn.addEventListner('click', async () => {
+      saveEntriesBtn.addEventListener('click', async () => {
         console.log('run and save');
         localStorage.setItem('db_populated', true);
         saveEntries();
