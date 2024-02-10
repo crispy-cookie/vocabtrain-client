@@ -74,7 +74,7 @@
           const objectStore = transaction.objectStore('eintrage');
 
           /*const request = objectStore.get(/* Hier den Schlüssel des gewünschten Eintrags angeben * /);*/
-          const request = objectStore.get(Math.floor(Math.random() * 551);
+          const request = objectStore.get(Math.floor(Math.random() * 551));
           request.onsuccess = async function(event) {
             const entry = request.result;
             if (entry) {
