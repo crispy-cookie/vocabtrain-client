@@ -75,7 +75,7 @@
 
           /*const request = objectStore.get(/* Hier den Schlüssel des gewünschten Eintrags angeben * /);*/
           const request = objectStore.get(Math.floor(Math.random() * 551));
-          request.onsuccess = async function(event) {
+          request.onsuccess = function(event) {
             const entry = request.result;
             if (entry) {
               askVocab.textContent = entry.vokabel;
@@ -83,9 +83,9 @@
             /* const answerKey = entry.beispielsatz.toLowerCase().replace(/[,\.]/g, ''); */
               answerKey = entry.beispielsatz;
               // Weitere Verarbeitung...
-              await document.getElementById('audioTag').setAttribute('src', `https://lingv.onrender.com/api/tts?lang=de&engine=google&text=${encodeURIComponent(answerKey)}`);
-              await document.getElementById('audioTag').load();
-              await document.getElementById('audioTag').play();
+              document.getElementById('audioTag').setAttribute('src', `https://lingv.onrender.com/api/tts?lang=de&engine=google&text=${encodeURIComponent(answerKey)}`);
+              document.getElementById('audioTag').load();
+              document.getElementById('audioTag').play();
             } else {
               console.log('Eintrag nicht gefunden');
             }
