@@ -10,8 +10,8 @@
       "purpose": "any"
     }
   ],
-  "short_name": "App",
-  "description": "Beschreibung",
+  "short_name": "VokabelTrainer",
+  "description": "Deutsch üben",
   "lang": "de",
   "categories": ["books", "education", "documentary"],
   "background_color": "#0E0327",
