@@ -32,7 +32,7 @@
     <main>
       <audio controls="" autoplay="">
         <source type="audio/mpeg" src="audio/tts.mp3">
-        Your browser does not support the audio element.
+        Your browser does not support this mpeg-mp3 audio element.
       </audio>
       <br>
       <br>
@@ -47,6 +47,7 @@
       <button type="button" id="answerBtn">Submit answer</button>
     </main>
     <script>
+      const audioTag = document.getElementById('audioTag');
       const answerInp = document.getElementById('answer');
       const answerBtn = document.getElementById('answerBtn');
 
@@ -61,6 +62,9 @@
           alert(`Wrong - The answer was: Ich koche gerne Kartoffeln $ {}`);
         }
       });
+      /*
+      audioTag.setAttribute('src', 'AUDIO_SRC_FILE');
+      */
     </script>
   </body>
 </html>
