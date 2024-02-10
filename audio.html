@@ -83,9 +83,9 @@
             /* const answerKey = entry.beispielsatz.toLowerCase().replace(/[,\.]/g, ''); */
               answerKey = entry.beispielsatz;
               // Weitere Verarbeitung...
-              await audioTag.setAttribute('src', `https://lingv.onrender.com/api/tts?lang=de&engine=google&text=${encodeURIComponent(answerKey)}`);
-              await audioTag.load();
-              await audioTag.play();
+              await document.getElementById('audioTag').setAttribute('src', `https://lingv.onrender.com/api/tts?lang=de&engine=google&text=${encodeURIComponent(answerKey)}`);
+              await document.getElementById('audioTag').load();
+              await document.getElementById('audioTag').play();
             } else {
               console.log('Eintrag nicht gefunden');
             }
