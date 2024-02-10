@@ -45,7 +45,7 @@
       <br>
       <br>
       <label for="answer">The audio says:</label>
-      <input type="text" name="answer" value="" id="answer" placeholder="Ich koche..." autofocus>
+      <input type="text" name="answer" value="Ich koche gerne Kartoffeln." id="answer" placeholder="Ich koche..." autofocus>
       <button type="button" id="answerBtn">Submit answer</button>
     </main>
     <script>
@@ -55,12 +55,13 @@
       const answerBtn = document.getElementById('answerBtn');
       let answerKey = 'ich koche gerne kartoffeln';
 
+      loadEntryFromDB();
       answerBtn.addEventListener('click', async () => {
         const answerGiven = answerInp.value;
         const answerLCR = answerGiven.toLowerCase().replace(/[,\.]/g, '').trim();
         /* answerKey = 'ich koche gerne kartoffeln'; */
         if (answerLCR === answerKey.toLowerCase().replace(/[,\.]/g, '')) {
-          alert('Correct!');
+          alert(`Correct! - The answer was: ${answerKey}`);
           loadEntryFromDB();
           answerInp.value = '';
         } else {
